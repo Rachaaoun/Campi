@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -31,6 +33,22 @@ class Reservation
      */
     private $produit;
 
+      /**
+   * @CaptchaAssert\ValidCaptcha(
+   *      message = "CAPTCHA validation failed, try again."
+   * )
+   */
+  protected $captchaCode;
+
+  public function getCaptchaCode()
+  {
+    return $this->captchaCode;
+  }
+
+  public function setCaptchaCode($captchaCode)
+  {
+    $this->captchaCode = $captchaCode;
+  }
     public function __construct()
     {
         $this->produit = new ArrayCollection();
@@ -81,5 +99,16 @@ class Reservation
         }
 
         return $this;
+    }
+
+    /*public  function _toString(){
+        $p=$this->getDateDeReservation();
+        $result = $p->format('Y-m-d H:i:s');
+        return  '';
+    }*/
+
+    public function __toString()
+    {
+        return (String) $this->getId();
     }
 }

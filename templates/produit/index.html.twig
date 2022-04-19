@@ -3,48 +3,62 @@
 {% block title %}Produit index{% endblock %}
 
 {% block body %}
-    <h1>Produit index</h1>
+
+
+	<section class="showcase" style="background: url('assets/img/worldmap.png') no-repeat center; background-size: cover">
+		<div class="main-title">
+			<h2>Our Top Products</h2>
+			<p>Consectetur adipisicing elit. Quisquam fugit ducimus, qui molestias.</p>
+		</div>
+		<div class="container">
 
     {% include 'produit/_filtre.html.twig' with {form : form} only %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prix</th>
-                <th>Categorie</th>
-                <th>Etat</th>
-                <th>Description</th>
-                <th>DatePublication</th>
-                <th>DateVente</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for produit in produits %}
-            <tr>
-                <td>{{ produit.id }}</td>
-                <td>{{ produit.nom }}</td>
-                <td>{{ produit.prix }}</td>
-                <td>{{ produit.categorie }}</td>
-                <td>{{ produit.etat }}</td>
-                <td>{{ produit.description }}</td>
-                <td>{{ produit.datePublication ? produit.datePublication|date('Y-m-d') : '' }}</td>
-                <td>{{ produit.dateVente }}</td>
-                <td>{{ produit.image }}</td>
-                <td>
-                    <a href="{{ path('app_produit_show', {'id': produit.id}) }}">show</a>
-                    <a href="{{ path('app_produit_edit', {'id': produit.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+			<div class="row item">
+    {% for produit in produits %}
+	<div class="col-sm-6 col-md-4">
+		<div class="item-grid">
+			<div class="item-img" style="background-image: url('/uploads/{{produit.image}}');">	
+				<div class="item-overlay">
+					<a href="trip_detail.html"><span class="icon-binocular"></span></a>
+				</div>
+			</div>
+			<div class="item-desc">
+				<div class="item-info">
+					<span class="icon-easy"></span>
+					<h4 class="title"><a href="#">{{ produit.nom }}</a></h4>
+				</div>
 
-    <a href="{{ path('app_produit_new') }}">Create new</a>
+				<div class="sub-title">
+					<span class="location">{{ produit.description }}</span>
+					<span class="grade">{{ produit.etat }}</span>
+				</div>
+
+				<div class="item-detail">
+					<div class="left">
+						<div class="day"><span class="icon-sun"></span>{{ produit.datePublication ? produit.datePublication|date('Y-m-d') : '' }}</div>
+						<div class="night"><span class="icon-moon"></span>2 Nights</div>
+					</div>
+					<div class="right">
+						<div class="price">{{ produit.prix }}</div>
+						<a href="{{path('app_reservation_new' ,{'id': produit.id})}}" class="btn btn-primary hvr-sweep-to-right">Book Now</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+  {% endfor %}
+		
+	
+	
+
+	
+	
+
+</div>	
+
+		</div>
+	</section>
+
+
+
 {% endblock %}

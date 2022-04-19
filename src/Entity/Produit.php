@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+use Captcha\Bundle\CaptchaBundle\Validator\Constraints as CaptchaAssert;
+
 /**
  * @ORM\Entity(repositoryClass=ProduitRepository::class)
  */
@@ -73,11 +75,28 @@ class Produit
      */
     private $image;
 
+
     /**
      * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="produit")
      */
     private $reservation;
 
+      /**
+   * @CaptchaAssert\ValidCaptcha(
+   *      message = "CAPTCHA validation failed, try again."
+   * )
+   */
+  protected $captchaCode;
+
+  public function getCaptchaCode()
+  {
+    return $this->captchaCode;
+  }
+
+  public function setCaptchaCode($captchaCode)
+  {
+    $this->captchaCode = $captchaCode;
+  }
     public function getId(): ?int
     {
         return $this->id;
@@ -189,5 +208,11 @@ class Produit
         $this->reservation = $reservation;
 
         return $this;
+    }
+
+    public  function _toString(){
+       // $p=$this->getDateDeReservation();
+        //$result = $p->format('Y-m-d H:i:s');
+        return  $this->getNom();
     }
 }
